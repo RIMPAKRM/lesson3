@@ -1,0 +1,32 @@
+##################################################
+# Aider Configuration File (.aider.conf.yml)
+# Монорепозиторий: Django Backend + React Frontend
+##################################################
+
+# --- Модель ИИ ---
+model: gemini/gemini-3.1-flash-lite
+
+# --- Настройки Автономии и Git ---
+auto-commits: true
+attribute-author: true
+attribute-committer: true
+commit-prompt: "feat(ai): {summary}"
+
+# --- Ограничение контекста для легких моделей ---
+# Уменьшаем карту репозитория, чтобы не забивать память Flash Lite
+map-tokens: 1024
+map-refresh: auto
+
+# --- Автоматическое тестирование и линтинг ---
+auto-test: true
+test-cmd: cd frontend && npm run lint
+
+# --- Правила разработки ---
+message: |
+  Вы работаете в режиме точечной разработки над Fullstack-проектом.
+  Структура: /backend (Django REST) и /frontend (React Vite).
+  
+  СТРОГИЕ ПРАВИЛАДЛЯ FLASH LITE:
+  1. Вноси изменения ТОЛЬКО в те файлы, которые явно указаны в запросе или добавлены через /add.
+  2. Не переписывай файлы целиком, если требуется добавить небольшую функцию.
+  3. Не чисти и не изменяй настройки CORS/JWT без прямого указания.
