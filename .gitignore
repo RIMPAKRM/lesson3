@@ -1,2 +1,14 @@
 .aider*
 .env
+
+# Python
+__pycache__/
+venv/
+back/venv/
+
+# Django
+db.sqlite3
+
+# Node
+node_modules/
+dist/

@@ -1,19 +1,20 @@
 from django.contrib.auth.models import User
-from rest_framework import generics, permissions, status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .serializers import RegisterSerializer
+from rest_framework import generics, permissions
+
+from .models import UserProfile
+from .serializers import RegisterSerializer, UserProfileSerializer
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterSerializer
 
-class UserProfileView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request):
-        return Response({
-            'username': request.user.username,
-            'email': request.user.email
-        })
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserProfileSerializer
+
+    def get_object(self):
+        profile, _ = UserProfile.objects.get_or_create(user=self.request.user)
+        return profile
